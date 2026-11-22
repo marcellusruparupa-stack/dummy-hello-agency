@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Helo! Creative — Helping Brands Say 'Hi!', Loud and Clear</title>
+  <link rel="icon" type="image/png" href="assets/logo-helo.png">
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blue: '#0095eb',
+              'blue-hover': '#007ec7',
+              coral: '#d18f4f',
+              'coral-hover': '#ba7c3f',
+              dark: '#161922',
+              'dark-surface': '#1c202c',
+              'dark-card': '#232838',
+              'dark-border': '#2d3348',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Space Grotesk"', 'sans-serif'],
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'radar': 'radar 2s cubic-bezier(0, 0, 0.2, 1) infinite',
+          },
+          keyframes: {
+            radar: {
+              '0%': { transform: 'scale(0.8)', opacity: '1' },
+              '100%': { transform: 'scale(2.4)', opacity: '0' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #161922;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2d3348;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0095eb;
+    }
+
+    /* Glassmorphism Styles */
+    .glass-nav {
+      background: rgba(22, 25, 34, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card {
+      background: rgba(28, 32, 44, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .glass-pill {
+      background: rgba(0, 149, 235, 0.12);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 149, 235, 0.35);
+    }
+    .glass-coral-pill {
+      background: rgba(209, 143, 79, 0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(209, 143, 79, 0.4);
+    }
+
+    /* Hotspot Glow */
+    .hotspot-glow {
+      box-shadow: 0 0 25px rgba(0, 149, 235, 0.6);
+    }
+    .hotspot-coral-glow {
+      box-shadow: 0 0 25px rgba(209, 143, 79, 0.6);
+    }
+
+    /* Text Gradient */
+    .gradient-blue-text {
+      background: linear-gradient(135deg, #ffffff 30%, #0095eb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gradient-coral-text {
+      background: linear-gradient(135deg, #ffffff 40%, #d18f4f 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .safe-screen-height {
+      height: 100vh;
+      height: 100dvh;
+    }
+    /* Portfolio Stagger & Card Animations */
+    .portfolio-item-card {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .portfolio-item-card.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* About Us Section Animation */
+    .about-fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .about-fade-up.is-in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-brand-dark text-slate-100 font-sans antialiased selection:bg-brand-blue selection:text-white">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300" id="main-nav">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <img src="assets/logo-helo.png" alt="Helo! Creative Logo" class="h-9 sm:h-10 w-auto object-contain brightness-0 invert transition-transform group-hover:scale-105" />
+      </a>
+
+      <!-- Desktop Menu -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#scrolly-section" class="hover:text-brand-blue transition-colors flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-blue"></span> Home
+        </a>
+        <a href="javascript:void(0)" onclick="jumpToProgress(0.48)" class="hover:text-brand-blue transition-colors">Our Studio</a>
+        <a href="javascript:void(0)" onclick="jumpToProgress(0.88)" class="hover:text-brand-blue transition-colors">Services</a>
+        <a href="#portfolio-section" class="hover:text-brand-blue transition-colors">Portfolio</a>
+        <a href="#values-section" class="hover:text-brand-blue transition-colors">Values</a>
+        <a href="#contact-section" class="hover:text-brand-blue transition-colors">Contact</a>
+      </nav>
+
+      <!-- CTA Button & Mobile Toggle -->
+      <div class="flex items-center gap-2 sm:gap-4">
+        <a href="https://api.whatsapp.com/send/?phone=6287877521839&text=Halo%20Helo!%20Creative,%20saya%20mau%20konsultasi%20project%20branding%20%26%20digital" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full bg-brand-blue hover:bg-brand-blue-hover text-white text-xs sm:text-sm font-semibold shadow-lg shadow-brand-blue/30 hover:shadow-brand-blue/50 hover:scale-105 transition-all duration-300">
+          <i data-lucide="message-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+          <span class="hidden xs:inline">Free Consultation</span>
+          <span class="xs:hidden">Consult</span>
+        </a>
+
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl bg-white/10 text-slate-200 hover:text-white focus:outline-none">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobile-menu-drawer" class="hidden md:hidden px-6 pt-3 pb-6 bg-brand-dark/95 backdrop-blur-2xl border-b border-white/10 space-y-3 text-sm font-medium">
+      <a href="#scrolly-section" onclick="toggleMobileMenu()" class="block py-2 text-slate-200 hover:text-brand-blue">Home</a>
+      <a href="javascript:void(0)" onclick="jumpToProgress(0.48); toggleMobileMenu();" class="block py-2 text-slate-200 hover:text-brand-blue">Our Studio Dive</a>
+      <a href="javascript:void(0)" onclick="jumpToProgress(0.88); toggleMobileMenu();" class="block py-2 text-slate-200 hover:text-brand-blue">Creative Desk (Services)</a>
+      <a href="#portfolio-section" onclick="toggleMobileMenu()" class="block py-2 text-slate-200 hover:text-brand-blue">Portfolio</a>
+      <a href="#values-section" onclick="toggleMobileMenu()" class="block py-2 text-slate-200 hover:text-brand-blue">Our Values</a>
+      <a href="#contact-section" onclick="toggleMobileMenu()" class="block py-2 text-slate-200 hover:text-brand-blue">Contact & Office</a>
+    </div>
+  </header>
+
+  <!-- ================= HERO & SCROLLYTELLING CONTAINER ================= -->
+  <!-- We use a tall pinned section (350vh) controlled via GSAP ScrollTrigger -->
+  <section id="scrolly-section" class="relative w-full h-[380vh] bg-brand-dark">
+    
+    <!-- Pinned Viewport Frame -->
+    <div id="scrolly-pinned" class="sticky top-0 left-0 w-full safe-screen-height overflow-hidden flex flex-col items-center justify-center">
+      
+      <!-- BACKGROUND SCENE LAYERS (Cross-fade & Scale via GSAP) -->
+      <div class="absolute inset-0 w-full h-full pointer-events-none select-none">
+        
+        <!-- Scene 1: Building Exterior -->
+        <div id="scene-layer-1" class="absolute inset-0 w-full h-full bg-cover bg-center will-change-transform" 
+             style="background-image: url('./assets/scene1_exterior_v2.webp');">
+          <div class="absolute inset-0 bg-gradient-to-b from-brand-dark/40 via-transparent to-brand-dark"></div>
+        </div>
+
+        <!-- Scene 2: Indoor Transition / Hallway -->
+        <div id="scene-layer-2" class="absolute inset-0 w-full h-full bg-cover bg-center opacity-0 will-change-transform"
+             style="background-image: url('./assets/scene2_transition_v2.webp');">
+          <div class="absolute inset-0 bg-gradient-to-b from-brand-dark/50 via-transparent to-brand-dark/90"></div>
+        </div>
+
+        <!-- Scene 3: The Creative Desk Workstation -->
+        <div id="scene-layer-3" class="absolute inset-0 w-full h-full bg-cover bg-center opacity-0 will-change-transform"
+             style="background-image: url('./assets/scene3_desk_v2.webp');">
+          <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-brand-dark/60"></div>
+        </div>
+
+        <!-- Ambient Vignette & Tech Grid -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,#161922_95%)] pointer-events-none"></div>
+      </div>
+
+      <!-- ================= OVERLAY TEXT STAGES ================= -->
+      
+      <!-- STAGE 1 TEXT: EXTERIOR WELCOME -->
+      <div id="stage-text-1" class="relative z-20 max-w-4xl mx-auto px-6 text-center will-change-[opacity,transform]">
+        <!-- Dedicated Scrim Overlay for WCAG Contrast >= 4.5:1 -->
+        <div class="absolute inset-0 -inset-x-8 -inset-y-6 -z-10 bg-black/60 rounded-3xl blur-xl pointer-events-none"></div>
+
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-pill text-brand-blue text-xs font-semibold uppercase tracking-wider mb-6">
+          <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span>
+          Helo! Creative Studio
+        </div>
+        <h1 class="text-[clamp(1.75rem,5.5vw,4.5rem)] font-extrabold tracking-tight text-white mb-4 sm:mb-6 font-display leading-[1.15] drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] break-words">
+          Helping Brands Say <span class="gradient-blue-text font-black">‘Hi!’</span>,<br>
+          <span class="text-white">Loud and Clear.</span>
+        </h1>
+        <p class="text-sm sm:text-lg md:text-xl text-slate-100 font-light max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+          A creative digital agency that turns bold ideas into impactful, market-leading brand experiences.
+        </p>
+        <div class="flex items-center justify-center gap-2 text-xs font-medium text-slate-400">
+          <i data-lucide="mouse" class="w-4 h-4 animate-bounce text-brand-blue"></i>
+          <span>Scroll to step inside our creative headquarters</span>
+        </div>
+      </div>
+
+      <!-- STAGE 2 TEXT: TRANSITION INTO STUDIO -->
+      <div id="stage-text-2" class="absolute z-20 max-w-3xl mx-auto px-6 text-center opacity-0 pointer-events-none will-change-[opacity,transform]">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-coral-pill text-brand-coral text-xs font-semibold uppercase tracking-wider mb-6">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          Inside The Workshop
+        </div>
+        <h2 class="text-2xl sm:text-4xl md:text-6xl font-extrabold text-white mb-4 sm:mb-6 font-display leading-tight drop-shadow-md">
+          Ideas is the beginning <br>of all <span class="gradient-coral-text font-black">fortunes.</span>
+        </h2>
+        <p class="text-sm sm:text-base md:text-lg text-slate-200 max-w-xl mx-auto leading-relaxed drop-shadow-md">
+          Welcome to where creative strategy meets technical precision. We don't just design; we build platforms that command attention.
+        </p>
+      </div>
+
+      <!-- STAGE 3 TEXT & HOTSPOTS: THE CREATIVE DESK -->
+      <div id="stage-text-3" class="absolute inset-0 z-20 w-full h-full flex flex-col justify-between pt-16 sm:pt-20 pb-20 px-4 sm:px-8 md:px-12 opacity-0 pointer-events-none will-change-[opacity,transform]">
+        
+        <!-- Top Desk Header -->
+        <div class="text-center pt-2 sm:pt-4 max-w-2xl mx-auto">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-pill text-brand-blue text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-1 sm:mb-2">
+            <i data-lucide="layers" class="w-3 h-3 text-brand-blue"></i>
+            Interactive Craft Station
+          </div>
+          <h2 class="text-xl sm:text-3xl md:text-4xl font-extrabold text-white font-display">
+            Crafted At The <span class="text-brand-blue">Creative Desk</span>
+          </h2>
+          <p class="text-[11px] sm:text-xs md:text-sm text-slate-300 mt-1 max-w-lg mx-auto">
+            Explore our 3 core disciplines built right on our workstation:
+          </p>
+        </div>
+
+        <!-- ================= 3 INTERACTIVE DESK HOTSPOTS ================= -->
+        <!-- ================= DESKTOP INTERACTIVE DESK HOTSPOTS (md:block) ================= -->
+        <div class="hidden md:block relative w-full max-w-5xl mx-auto h-[380px] my-auto">
+          
+          <!-- HOTSPOT 1: BRANDING & DESIGN (Left - Sketchbook) -->
+          <div id="hotspot-branding" 
+               class="absolute left-[8%] md:left-[14%] top-[30%] md:top-[38%] pointer-events-auto cursor-pointer group"
+               onclick="openServiceModal('branding')">
+            <!-- Pulsing Pin Radar -->
+            <div class="relative flex items-center justify-center">
+              <span class="absolute w-12 h-12 rounded-full bg-brand-blue/30 animate-radar pointer-events-none"></span>
+              <span class="relative w-7 h-7 rounded-full bg-brand-blue flex items-center justify-center text-white shadow-lg hotspot-glow group-hover:scale-125 transition-transform duration-300">
+                <i data-lucide="pen-tool" class="w-3.5 h-3.5"></i>
+              </span>
+            </div>
+            <!-- Glass Label Card (Desktop Hover / Always on Mobile) -->
+            <div class="mt-3 -ml-16 md:-ml-8 w-44 md:w-52 p-3 rounded-2xl glass-card border border-brand-blue/40 shadow-2xl group-hover:border-brand-blue group-hover:-translate-y-1 transition-all duration-300">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[10px] uppercase font-bold tracking-wider text-brand-blue">Service 01</span>
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-brand-blue group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              </div>
+              <h3 class="text-sm font-bold text-white leading-tight">Branding & Design</h3>
+              <p class="text-[11px] text-slate-300 mt-0.5">Sketchbook, Logo, Brand Guidelines & Packaging.</p>
+              <div class="mt-2 inline-flex items-center text-[10px] font-semibold text-brand-blue">
+                <span>View Details</span> &rarr;
+              </div>
+            </div>
+          </div>
+
+          <!-- HOTSPOT 2: DIGITAL MARKETING (Center - Laptop Dashboard) -->
+          <div id="hotspot-digital" 
+               class="absolute left-[40%] md:left-[46%] top-[12%] md:top-[18%] pointer-events-auto cursor-pointer group"
+               onclick="openServiceModal('digital')">
+            <!-- Pulsing Pin Radar -->
+            <div class="relative flex items-center justify-center">
+              <span class="absolute w-12 h-12 rounded-full bg-cyan-400/30 animate-radar pointer-events-none"></span>
+              <span class="relative w-7 h-7 rounded-full bg-cyan-500 flex items-center justify-center text-white shadow-lg hotspot-glow group-hover:scale-125 transition-transform duration-300">
+                <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+              </span>
+            </div>
+            <!-- Glass Label Card -->
+            <div class="mt-3 -ml-20 md:-ml-12 w-48 md:w-56 p-3 rounded-2xl glass-card border border-cyan-400/40 shadow-2xl group-hover:border-cyan-400 group-hover:-translate-y-1 transition-all duration-300">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[10px] uppercase font-bold tracking-wider text-cyan-400">Service 02</span>
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              </div>
+              <h3 class="text-sm font-bold text-white leading-tight">Digital Marketing</h3>
+              <p class="text-[11px] text-slate-300 mt-0.5">Campaigns, Social Media, Growth Analytics & Ads.</p>
+              <div class="mt-2 inline-flex items-center text-[10px] font-semibold text-cyan-400">
+                <span>View Details</span> &rarr;
+              </div>
+            </div>
+          </div>
+
+          <!-- HOTSPOT 3: PHOTO & VIDEOGRAPHY (Right - Sony Camera & Lens) -->
+          <div id="hotspot-photo" 
+               class="absolute right-[8%] md:right-[15%] top-[28%] md:top-[34%] pointer-events-auto cursor-pointer group"
+               onclick="openServiceModal('photo')">
+            <!-- Pulsing Pin Radar -->
+            <div class="relative flex items-center justify-center">
+              <span class="absolute w-12 h-12 rounded-full bg-brand-coral/30 animate-radar pointer-events-none"></span>
+              <span class="relative w-7 h-7 rounded-full bg-brand-coral flex items-center justify-center text-white shadow-lg hotspot-coral-glow group-hover:scale-125 transition-transform duration-300">
+                <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+              </span>
+            </div>
+            <!-- Glass Label Card -->
+            <div class="mt-3 -ml-28 md:-ml-16 w-44 md:w-52 p-3 rounded-2xl glass-card border border-brand-coral/40 shadow-2xl group-hover:border-brand-coral group-hover:-translate-y-1 transition-all duration-300">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[10px] uppercase font-bold tracking-wider text-brand-coral">Service 03</span>
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-brand-coral group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              </div>
+              <h3 class="text-sm font-bold text-white leading-tight">Photo & Videography</h3>
+              <p class="text-[11px] text-slate-300 mt-0.5">Sony Cinema, Brand Videos, Reels & Studio Production.</p>
+              <div class="mt-2 inline-flex items-center text-[10px] font-semibold text-brand-coral">
+                <span>View Details</span> &rarr;
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ================= MOBILE RESPONSIVE SERVICE SELECTOR (md:hidden) ================= -->
+        <div class="block md:hidden w-full max-w-sm mx-auto my-auto pointer-events-auto">
+          <div class="grid grid-cols-3 gap-1.5 p-1 rounded-2xl glass-card border border-white/10 mb-2.5 text-center">
+            <button onclick="setMobileServiceTab('branding')" id="mob-tab-branding" class="py-1.5 px-2 rounded-xl text-[11px] font-bold transition-all bg-brand-blue text-white shadow-md">
+              Branding
+            </button>
+            <button onclick="setMobileServiceTab('digital')" id="mob-tab-digital" class="py-1.5 px-2 rounded-xl text-[11px] font-bold transition-all text-slate-300 hover:text-white">
+              Digital
+            </button>
+            <button onclick="setMobileServiceTab('photo')" id="mob-tab-photo" class="py-1.5 px-2 rounded-xl text-[11px] font-bold transition-all text-slate-300 hover:text-white">
+              Photo/Video
+            </button>
+          </div>
+
+          <!-- Active Mobile Service Card -->
+          <div id="mobile-service-card" class="glass-card rounded-2xl p-3.5 border border-white/15 shadow-2xl relative overflow-hidden transition-all duration-300">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Desk Footer Tip -->
+        <div class="text-center pb-4">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 text-[11px] text-slate-400 border border-white/10 backdrop-blur-md">
+            <i data-lucide="info" class="w-3 h-3 text-brand-blue"></i>
+            Click any pin to inspect portfolio samples and service scopes
+          </span>
+        </div>
+
+      </div>
+
+      <!-- ================= SCENE CONTROLLER DOCK (BOTTOM DOCK) ================= -->
+      <div class="absolute bottom-4 sm:bottom-6 z-30 flex items-center gap-1 sm:gap-2 p-1 sm:p-1.5 rounded-full glass-card border border-white/15 shadow-2xl pointer-events-auto max-w-[95vw] overflow-x-auto">
+        <button onclick="jumpToProgress(0.05)" id="btn-scene-1" class="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all bg-brand-blue text-white shadow-md shrink-0">
+          1. Exterior
+        </button>
+        <button onclick="jumpToProgress(0.48)" id="btn-scene-2" class="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all text-slate-300 hover:text-white shrink-0">
+          2. Studio Dive
+        </button>
+        <button onclick="jumpToProgress(0.88)" id="btn-scene-3" class="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all text-slate-300 hover:text-white shrink-0">
+          3. Desk
+        </button>
+        <div class="w-px h-3.5 bg-white/20 mx-0.5 sm:mx-1 shrink-0"></div>
+        <a href="#values-section" class="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold text-slate-300 hover:text-brand-blue flex items-center gap-1 shrink-0">
+          <span>Values</span> &darr;
+        </a>
+      </div>
+
+      <!-- Scrollytelling Progress Bar Indicator -->
+      <div class="absolute top-20 left-0 w-full h-[2px] bg-white/10 z-40">
+        <div id="scroll-progress-line" class="h-full bg-gradient-to-r from-brand-blue via-cyan-400 to-brand-coral w-0 transition-all duration-75"></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================= SECTION: ABOUT US ================= -->
+  <section id="about-section" class="relative z-20 py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-brand-dark border-t border-white/10 overflow-hidden">
+    <!-- Ambient Backdrop Glow -->
+    <div class="absolute -left-40 top-1/2 -translate-y-1/2 w-96 h-96 bg-brand-blue/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -right-40 top-1/2 -translate-y-1/2 w-96 h-96 bg-brand-coral/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
+        <!-- Left Column: Visual Asset & Floating Badges -->
+        <div class="lg:col-span-5 about-fade-up">
+          <div class="relative group mx-auto max-w-md lg:max-w-none">
+            <!-- Glow underlay -->
+            <div class="absolute -inset-1 bg-gradient-to-tr from-brand-blue/40 via-brand-coral/30 to-brand-blue/20 rounded-3xl blur-lg opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            <!-- Image Card Container -->
+            <div class="relative rounded-3xl overflow-hidden glass-card border border-white/15 bg-brand-dark-surface shadow-2xl">
+              <img src="assets/about/about-visual.webp" 
+                   alt="HELO! Creative Design Thinking and Ideas" 
+                   class="w-full h-auto object-cover aspect-[4/3] transform group-hover:scale-105 transition-transform duration-700 ease-out" 
+                   loading="lazy" />
+              
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent"></div>
+              
+              <!-- Floating Corner Badge -->
+              <div class="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-brand-dark/85 backdrop-blur-md border border-white/10 flex items-center justify-between">
+                <div>
+                  <span class="text-xs uppercase font-extrabold tracking-wider text-brand-blue block">Company Established</span>
+                  <span class="text-sm font-bold text-white">PT. Helo Kreasi Pratama</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs text-slate-400 block">Since</span>
+                  <span class="text-sm font-bold text-brand-coral">2013</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Accent Badge Top Right -->
+            <div class="absolute -top-3 -right-3 px-3.5 py-1.5 rounded-full bg-brand-blue text-white text-xs font-bold shadow-lg flex items-center gap-1.5">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              <span>Creative Agency</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Narrative & Key Strengths -->
+        <div class="lg:col-span-7 space-y-6 about-fade-up">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-pill text-brand-blue text-xs font-bold uppercase tracking-wider">
+            <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
+            About Helo! Creative
+          </div>
+
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white font-display tracking-tight leading-tight">
+            Crafting Powerful Brand Presence <br class="hidden sm:inline">
+            <span class="gradient-blue-text">That Accelerates Growth</span>
+          </h2>
+
+          <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+            <p>
+              <strong class="text-white font-semibold">HELO! Creative & Digital Solutions</strong> provides integrated branding and advertising services. We partner with ambitious businesses across graphic design, full-funnel digital marketing, commercial photography, and videography.
+            </p>
+            <p>
+              Our journey began as a boutique graphic design house in 2013, officially expanding and incorporating as <span class="text-slate-100">PT. Helo Kreasi Pratama</span> in 2020. We focus on transforming creative concepts into measurable brand momentum that elevates your products in competitive markets.
+            </p>
+          </div>
+
+          <!-- 3 Key Pillars / Strengths from helocreative.co.id -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+            <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-brand-blue/40 transition-colors">
+              <div class="w-8 h-8 rounded-xl bg-brand-blue/15 text-brand-blue flex items-center justify-center mb-3">
+                <i data-lucide="lightbulb" class="w-4 h-4"></i>
+              </div>
+              <h4 class="text-white font-bold text-sm mb-1">Fresh Ideas</h4>
+              <p class="text-slate-400 text-xs leading-relaxed">Innovative viewpoints outside routine office patterns.</p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-brand-coral/40 transition-colors">
+              <div class="w-8 h-8 rounded-xl bg-brand-coral/15 text-brand-coral flex items-center justify-center mb-3">
+                <i data-lucide="clock" class="w-4 h-4"></i>
+              </div>
+              <h4 class="text-white font-bold text-sm mb-1">Time Efficiency</h4>
+              <p class="text-slate-400 text-xs leading-relaxed">Swift execution freeing you to focus on core operations.</p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-cyan-400/40 transition-colors">
+              <div class="w-8 h-8 rounded-xl bg-cyan-500/15 text-cyan-400 flex items-center justify-center mb-3">
+                <i data-lucide="coins" class="w-4 h-4"></i>
+              </div>
+              <h4 class="text-white font-bold text-sm mb-1">Cost Effective</h4>
+              <p class="text-slate-400 text-xs leading-relaxed">Scalable creative team access without permanent payroll overhead.</p>
+            </div>
+          </div>
+
+          <!-- Action Link -->
+          <div class="pt-2">
+            <a href="https://helocreative.co.id/aboutus/" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 text-white font-semibold text-xs sm:text-sm border border-white/15 hover:border-brand-blue/50 transition-all duration-300">
+              <span>Read Full Story on Official Website</span>
+              <i data-lucide="external-link" class="w-3.5 h-3.5 text-brand-blue"></i>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION: FEATURED PORTFOLIO ================= -->
+  <section id="portfolio-section" class="relative z-20 py-24 sm:py-32 px-4 sm:px-6 bg-brand-dark border-t border-white/5">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-pill text-brand-blue text-xs font-bold uppercase tracking-wider mb-4">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          Selected Works & Case Studies
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-white font-display tracking-tight mb-5">
+          Crafted with <span class="gradient-blue-text">Purpose & Impact</span>
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          Koleksi karya visual, desain identitas brand, hingga kampanye digital yang dirancang strategis untuk menggerakkan audiens dan memperkuat reputasi bisnis Anda.
+        </p>
+      </div>
+
+      <!-- Responsive Grid: 1 col on mobile (360px), 2 on md (768px), 3 on lg/desktop -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="portfolio-grid">
+        
+        <!-- Card 1: Company Profiles -->
+        <a href="https://helocreative.co.id/portfolio-item/creative-design/" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="portfolio-item-card group relative block overflow-hidden rounded-3xl glass-card border border-white/10 hover:border-brand-blue/50 transition-all duration-500 shadow-xl"
+           style="--delay: 0ms;">
+          <div class="relative aspect-[4/3] w-full overflow-hidden bg-slate-900">
+            <img src="assets/portfolio/company-profiles.webp" 
+                 alt="Company Profiles - Helo! Creative" 
+                 class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
+                 loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#161922] via-[#161922]/50 to-transparent opacity-85 group-hover:opacity-75 transition-opacity duration-300"></div>
+            <div class="absolute top-4 left-4">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md text-brand-blue border border-brand-blue/30">
+                Corporate Design
+              </span>
+            </div>
+            <div class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-brand-blue group-hover:border-brand-blue group-hover:scale-110 transition-all duration-300">
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white group-hover:text-brand-blue transition-colors font-display mb-2 flex items-center justify-between">
+              Company Profiles
+            </h3>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3">
+              Content structuring, visual storytelling, hingga final production untuk menghadirkan company profile yang kredibel, elegan, dan memikat klien maupun investor.
+            </p>
+            <div class="flex items-center gap-1.5 text-xs font-semibold text-brand-blue group-hover:underline">
+              <span>View Case Detail</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2: Yearly Calendar -->
+        <a href="https://helocreative.co.id/portfolio-item/creative-design/" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="portfolio-item-card group relative block overflow-hidden rounded-3xl glass-card border border-white/10 hover:border-cyan-400/50 transition-all duration-500 shadow-xl"
+           style="--delay: 100ms;">
+          <div class="relative aspect-[4/3] w-full overflow-hidden bg-slate-900">
+            <img src="assets/portfolio/yearly-calendar.webp" 
+                 alt="Yearly Calendar - Helo! Creative" 
+                 class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
+                 loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#161922] via-[#161922]/50 to-transparent opacity-85 group-hover:opacity-75 transition-opacity duration-300"></div>
+            <div class="absolute top-4 left-4">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md text-cyan-400 border border-cyan-400/30">
+                Merchandise
+              </span>
+            </div>
+            <div class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-cyan-500 group-hover:border-cyan-500 group-hover:scale-110 transition-all duration-300">
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors font-display mb-2 flex items-center justify-between">
+              Yearly Calendar
+            </h3>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3">
+              Desain kalender eksklusif yang memadukan fungsi praktis dan brand storytelling agar brand Anda selalu diingat pelanggan sepanjang tahun.
+            </p>
+            <div class="flex items-center gap-1.5 text-xs font-semibold text-cyan-400 group-hover:underline">
+              <span>View Case Detail</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 3: Packagings -->
+        <a href="https://helocreative.co.id/portfolio-item/creative-design/" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="portfolio-item-card group relative block overflow-hidden rounded-3xl glass-card border border-white/10 hover:border-brand-coral/50 transition-all duration-500 shadow-xl"
+           style="--delay: 200ms;">
+          <div class="relative aspect-[4/3] w-full overflow-hidden bg-slate-900">
+            <img src="assets/portfolio/packagings.webp" 
+                 alt="Packagings - Helo! Creative" 
+                 class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
+                 loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#161922] via-[#161922]/50 to-transparent opacity-85 group-hover:opacity-75 transition-opacity duration-300"></div>
+            <div class="absolute top-4 left-4">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md text-brand-coral border border-brand-coral/30">
+                Packaging Design
+              </span>
+            </div>
+            <div class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-brand-coral group-hover:border-brand-coral group-hover:scale-110 transition-all duration-300">
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white group-hover:text-brand-coral transition-colors font-display mb-2 flex items-center justify-between">
+              Packagings
+            </h3>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3">
+              Struktur kemasan dan visual memikat yang menonjol di rak display, membangun kepercayaan, dan menyampaikan nilai unik produk pada pandangan pertama.
+            </p>
+            <div class="flex items-center gap-1.5 text-xs font-semibold text-brand-coral group-hover:underline">
+              <span>View Case Detail</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 4: KV Development -->
+        <a href="https://helocreative.co.id/portfolio-item/creative-design/" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="portfolio-item-card group relative block overflow-hidden rounded-3xl glass-card border border-white/10 hover:border-brand-blue/50 transition-all duration-500 shadow-xl"
+           style="--delay: 300ms;">
+          <div class="relative aspect-[4/3] w-full overflow-hidden bg-slate-900">
+            <img src="assets/portfolio/kv-development.webp" 
+                 alt="KV Development - Helo! Creative" 
+                 class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
+                 loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#161922] via-[#161922]/50 to-transparent opacity-85 group-hover:opacity-75 transition-opacity duration-300"></div>
+            <div class="absolute top-4 left-4">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md text-brand-blue border border-brand-blue/30">
+                Key Visual
+              </span>
+            </div>
+            <div class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-brand-blue group-hover:border-brand-blue group-hover:scale-110 transition-all duration-300">
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white group-hover:text-brand-blue transition-colors font-display mb-2 flex items-center justify-between">
+              KV Development
+            </h3>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3">
+              Perumusan Key Visual (KV) kampanye dengan fondasi strategi tajam untuk konsistensi, kejelasan pesan, dan daya tarik kreatif di segala kanal media.
+            </p>
+            <div class="flex items-center gap-1.5 text-xs font-semibold text-brand-blue group-hover:underline">
+              <span>View Case Detail</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 5: Promotion Collaterals -->
+        <a href="https://helocreative.co.id/portfolio-item/creative-design/" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="portfolio-item-card group relative block overflow-hidden rounded-3xl glass-card border border-white/10 hover:border-cyan-400/50 transition-all duration-500 shadow-xl"
+           style="--delay: 400ms;">
+          <div class="relative aspect-[4/3] w-full overflow-hidden bg-slate-900">
+            <img src="assets/portfolio/promotion-collaterals.webp" 
+                 alt="Promotion Collaterals - Helo! Creative" 
+                 class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
+                 loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#161922] via-[#161922]/50 to-transparent opacity-85 group-hover:opacity-75 transition-opacity duration-300"></div>
+            <div class="absolute top-4 left-4">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md text-cyan-400 border border-cyan-400/30">
+                Marketing Collateral
+              </span>
+            </div>
+            <div class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-cyan-500 group-hover:border-cyan-500 group-hover:scale-110 transition-all duration-300">
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors font-display mb-2 flex items-center justify-between">
+              Promotion Collaterals
+            </h3>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3">
+              Materi promosi seperti banner, brosur, flyer, hingga event backdrop yang selaras dengan panduan brand dan berkomunikasi secara efektif.
+            </p>
+            <div class="flex items-center gap-1.5 text-xs font-semibold text-cyan-400 group-hover:underline">
+              <span>View Case Detail</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 6: Digital Marketing & Ads -->
+        <a href="https://helocreative.co.id/portfolio-item/digital-marketing/" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="portfolio-item-card group relative block overflow-hidden rounded-3xl glass-card border border-white/10 hover:border-brand-coral/50 transition-all duration-500 shadow-xl"
+           style="--delay: 500ms;">
+          <div class="relative aspect-[4/3] w-full overflow-hidden bg-slate-900">
+            <img src="assets/portfolio/digital-ads.webp" 
+                 alt="Digital Marketing & Ads - Helo! Creative" 
+                 class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
+                 loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#161922] via-[#161922]/50 to-transparent opacity-85 group-hover:opacity-75 transition-opacity duration-300"></div>
+            <div class="absolute top-4 left-4">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md text-brand-coral border border-brand-coral/30">
+                Digital & Growth
+              </span>
+            </div>
+            <div class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-brand-coral group-hover:border-brand-coral group-hover:scale-110 transition-all duration-300">
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white group-hover:text-brand-coral transition-colors font-display mb-2 flex items-center justify-between">
+              Digital Marketing & Ads
+            </h3>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3">
+              Kampanye iklan berbayar lintas channel (Meta, Google, TikTok Ads) dengan materi visual kreatif berkinerja tinggi yang mendongkrak konversi nyata.
+            </p>
+            <div class="flex items-center gap-1.5 text-xs font-semibold text-brand-coral group-hover:underline">
+              <span>View Case Detail</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- Bottom View All Action Button -->
+      <div class="mt-16 text-center">
+        <a href="https://helocreative.co.id/portfolio-item/creative-design/" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-white/5 hover:bg-white/10 text-white font-semibold text-sm border border-white/15 hover:border-brand-blue/50 hover:scale-105 transition-all duration-300 shadow-lg">
+          <span>Explore All Works on Official Website</span>
+          <i data-lucide="external-link" class="w-4 h-4 text-brand-blue"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION: OUR VALUES ================= -->
+  <section id="values-section" class="relative z-20 py-28 px-6 bg-gradient-to-b from-brand-dark via-brand-dark-surface to-brand-dark border-t border-white/5">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-20">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-pill text-brand-blue text-xs font-bold uppercase tracking-wider mb-4">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          The Foundation
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-white font-display tracking-tight mb-5">
+          Our Guiding <span class="gradient-blue-text">Values</span>
+        </h2>
+        <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+          How we ensure every single campaign, visual identity, and shoot delivers measurable impact for our partners.
+        </p>
+      </div>
+
+      <!-- 3 Values Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        
+        <!-- Value 1 -->
+        <div class="glass-card p-8 rounded-3xl border border-white/10 hover:border-brand-blue/50 hover:-translate-y-2 transition-all duration-300 group">
+          <div class="w-14 h-14 rounded-2xl bg-brand-blue/10 border border-brand-blue/30 flex items-center justify-center text-brand-blue mb-6 group-hover:scale-110 group-hover:bg-brand-blue group-hover:text-white transition-all duration-300">
+            <i data-lucide="sparkles" class="w-7 h-7"></i>
+          </div>
+          <span class="text-xs uppercase font-extrabold tracking-wider text-brand-blue mb-2 block">Pillar 01</span>
+          <h3 class="text-2xl font-bold text-white mb-4 font-display">Creative is key</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            We provide branding solutions and assure you that we will incorporate the most creative strategies to make your brand stand out from your competitors.
+          </p>
+          <div class="mt-6 pt-6 border-t border-white/10 flex items-center gap-2 text-xs font-semibold text-slate-400 group-hover:text-brand-blue">
+            <i data-lucide="check-circle" class="w-4 h-4 text-brand-blue"></i>
+            <span>Bold ideas. Fresh perspectives.</span>
+          </div>
+        </div>
+
+        <!-- Value 2 -->
+        <div class="glass-card p-8 rounded-3xl border border-white/10 hover:border-brand-coral/50 hover:-translate-y-2 transition-all duration-300 group">
+          <div class="w-14 h-14 rounded-2xl bg-brand-coral/10 border border-brand-coral/30 flex items-center justify-center text-brand-coral mb-6 group-hover:scale-110 group-hover:bg-brand-coral group-hover:text-white transition-all duration-300">
+            <i data-lucide="handshake" class="w-7 h-7"></i>
+          </div>
+          <span class="text-xs uppercase font-extrabold tracking-wider text-brand-coral mb-2 block">Pillar 02</span>
+          <h3 class="text-2xl font-bold text-white mb-4 font-display">Partnership engagement</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            We collaborate closely with our clients to understand their exact needs and requirements, providing tailored solutions to achieve their goals together.
+          </p>
+          <div class="mt-6 pt-6 border-t border-white/10 flex items-center gap-2 text-xs font-semibold text-slate-400 group-hover:text-brand-coral">
+            <i data-lucide="check-circle" class="w-4 h-4 text-brand-coral"></i>
+            <span>Your goals. Our commitment.</span>
+          </div>
+        </div>
+
+        <!-- Value 3 -->
+        <div class="glass-card p-8 rounded-3xl border border-white/10 hover:border-cyan-400/50 hover:-translate-y-2 transition-all duration-300 group">
+          <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-6 group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300">
+            <i data-lucide="target" class="w-7 h-7"></i>
+          </div>
+          <span class="text-xs uppercase font-extrabold tracking-wider text-cyan-400 mb-2 block">Pillar 03</span>
+          <h3 class="text-2xl font-bold text-white mb-4 font-display">Result oriented</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            As an outcome-driven organization with a passion for delivering measurable results, we help our clients maximize business value and market growth.
+          </p>
+          <div class="mt-6 pt-6 border-t border-white/10 flex items-center gap-2 text-xs font-semibold text-slate-400 group-hover:text-cyan-400">
+            <i data-lucide="check-circle" class="w-4 h-4 text-cyan-400"></i>
+            <span>Data-driven real business impact.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= SECTION: CONTACT & WHATSAPP CTA ================= -->
+      <div id="contact-section" class="relative rounded-3xl overflow-hidden glass-card border border-white/15 p-8 md:p-14 shadow-2xl">
+        <!-- Ambient glow background -->
+        <div class="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-brand-blue/20 blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-20 -bottom-20 w-96 h-96 rounded-full bg-brand-coral/20 blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          <!-- Left CTA Text -->
+          <div class="lg:col-span-7">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-blue/20 text-brand-blue text-xs font-bold uppercase tracking-wider mb-4 border border-brand-blue/30">
+              <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+              Let's Connect Now
+            </div>
+            <h3 class="text-3xl sm:text-5xl font-extrabold text-white font-display leading-tight mb-4">
+              Contact us now for your <br><span class="text-brand-blue">branding solution.</span>
+            </h3>
+            <p class="text-slate-300 text-base leading-relaxed mb-6">
+              Have an upcoming product launch, rebranding, or social media campaign? Discuss your vision with our creative leads and get a custom strategy proposal.
+            </p>
+
+            <!-- Office & Contact Details -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-300 mb-8">
+              <div class="flex items-start gap-2.5">
+                <i data-lucide="map-pin" class="w-4 h-4 text-brand-blue shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-white block font-semibold">PT. HELO KREASI PRATAMA</strong>
+                  Permata Regency D, Kembangan, Jakarta Barat, 11630
+                </div>
+              </div>
+              <div class="space-y-2">
+                <div class="flex items-center gap-2.5">
+                  <i data-lucide="phone" class="w-4 h-4 text-brand-blue shrink-0"></i>
+                  <span>+62878-7752-1839</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                  <i data-lucide="mail" class="w-4 h-4 text-brand-blue shrink-0"></i>
+                  <span>helo@helocreative.co.id</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTA Action Buttons -->
+            <div class="flex flex-wrap items-center gap-4">
+              <a href="https://api.whatsapp.com/send/?phone=6287877521839&text=Halo%20Helo!%20Creative,%20saya%20mau%20konsultasi%20branding%20solusi%20untuk%20brand%20saya" 
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold text-base shadow-xl shadow-emerald-500/30 hover:scale-105 hover:shadow-emerald-500/50 transition-all duration-300">
+                <i data-lucide="message-circle" class="w-5 h-5 fill-current"></i>
+                <span>Chat on WhatsApp</span>
+              </a>
+
+              <a href="mailto:helo@helocreative.co.id" 
+                 class="inline-flex items-center gap-2 px-6 py-4 rounded-2xl glass-card text-white hover:bg-white/10 font-semibold text-sm border border-white/20 transition-all">
+                <i data-lucide="mail" class="w-4 h-4"></i>
+                <span>Send Email</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Card: Quick WhatsApp Direct Card -->
+          <div class="lg:col-span-5">
+            <div class="p-6 rounded-2xl bg-brand-dark-surface/90 border border-white/10 shadow-inner">
+              <div class="flex items-center gap-3 mb-4 pb-4 border-b border-white/10">
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                  <i data-lucide="message-square" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-white text-base">Direct Consultation</h4>
+                  <p class="text-xs text-emerald-400 flex items-center gap-1 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Available 09:00 - 18:00 WIB
+                  </p>
+                </div>
+              </div>
+              <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+                "Kami siap membantu memetakan kebutuhan identitas brand, strategi campaign, maupun produksi foto/video komersial dengan fleksibilitas budget."
+              </p>
+              <div class="space-y-2 text-xs font-mono text-slate-400 bg-brand-dark p-3 rounded-xl border border-white/5">
+                <div class="flex justify-between">
+                  <span>Fast Response:</span>
+                  <span class="text-white font-sans font-bold">&lt; 15 Menit</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Consultation Fee:</span>
+                  <span class="text-emerald-400 font-sans font-bold">100% FREE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-black py-12 px-6 border-t border-white/10 text-slate-400 text-xs">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-4">
+        <img src="assets/logo-helo.png" alt="Helo! Creative Logo" class="h-8 w-auto object-contain brightness-0 invert" />
+        <div>
+          <span class="font-display font-bold text-white text-sm">Helo! Creative</span>
+          <span class="text-slate-500 block">Create + Connect + Grow</span>
+        </div>
+      </div>
+
+      <div class="text-center md:text-left text-slate-500">
+        &copy; 2026 PT. Helo Kreasi Pratama. All rights reserved. Helping Brands Say 'Hi!', Loud and Clear.
+      </div>
+
+      <div class="flex items-center gap-6">
+        <a href="https://helocreative.co.id/ourworks/" target="_blank" class="hover:text-brand-blue transition-colors">Our Works</a>
+        <a href="https://helocreative.co.id/aboutus/" target="_blank" class="hover:text-brand-blue transition-colors">About Us</a>
+        <a href="https://helocreative.co.id/contact/" target="_blank" class="hover:text-brand-blue transition-colors">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= FLOATING ACTION BUTTON (WHATSAPP) ================= -->
+  <a href="https://api.whatsapp.com/send/?phone=6287877521839&text=Halo%20Helo!%20Creative,%20saya%20mau%20konsultasi%20project" 
+     target="_blank"
+     rel="noopener noreferrer"
+     class="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white shadow-2xl shadow-emerald-500/40 hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+     title="Chat on WhatsApp">
+    <i data-lucide="message-circle" class="w-6 h-6 fill-current"></i>
+    <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs will-change-[opacity,transform] ease-in-out pl-0 group-hover:pl-2 text-xs font-bold">
+      WhatsApp Us
+    </span>
+  </a>
+
+  <!-- ================= MODAL: SERVICE DETAIL PREVIEW ================= -->
+  <div id="service-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4">
+    <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto glass-card border border-white/20 rounded-3xl p-5 sm:p-8 shadow-2xl transform scale-95 transition-transform duration-300" id="modal-content-card">
+      
+      <!-- Close Button -->
+      <button onclick="closeServiceModal()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Dynamic Modal Content -->
+      <div id="modal-body">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Data for Services
+    const serviceData = {
+      branding: {
+        title: "Branding & Design",
+        category: "Visual Identity & Graphic Craft",
+        icon: "pen-tool",
+        color: "#0095eb",
+        image: "./assets/item_sketchbook_v2.webp",
+        subtitle: "From sketchbook ideation to holistic design systems.",
+        desc: "Kami percaya ide hebat membutuhkan visual identity yang kokoh. Dari logo, typography, moodboard warna, stationery hingga packaging produk, kami menciptakan identitas yang memikat dan membedakan brand Anda secara konsisten.",
+        deliverables: [
+          "Brand Strategy & Architecture",
+          "Logo Suite & Iconography",
+          "Brand Guidelines Book (Colors, Typography, Usage)",
+          "Product Packaging & Label Design",
+          "Marketing Collateral & Stationery"
+        ],
+        whatsappText: "Halo Helo! Creative, saya mau konsultasi layanan Branding & Design"
+      },
+      digital: {
+        title: "Digital Marketing",
+        category: "Growth, Content & Analytics",
+        icon: "trending-up",
+        color: "#06b6d4",
+        image: "./assets/item_laptop_v2.webp",
+        subtitle: "Data-driven campaigns that accelerate customer acquisition.",
+        desc: "Menghubungkan brand Anda dengan audience yang tepat secara terukur. Mengelola social media, kampanye berbayar (Meta/TikTok/Google Ads), creative copywriting, hingga dashboard analytics performa yang transparan.",
+        deliverables: [
+          "Social Media Management & Strategy",
+          "Paid Advertising (Meta Ads, Google Ads, TikTok)",
+          "Performance Analytics & Monthly Reporting",
+          "Content Planning & Copywriting",
+          "Influencer & KOL Engagement"
+        ],
+        whatsappText: "Halo Helo! Creative, saya mau konsultasi layanan Digital Marketing"
+      },
+      photo: {
+        title: "Photo & Videography",
+        category: "Commercial Imagery & Cinema",
+        icon: "camera",
+        color: "#d18f4f",
+        image: "./assets/item_camera_v2.webp",
+        subtitle: "Cinematic visuals crafted with high-end cinema equipment.",
+        desc: "Visual berkualitas tinggi adalah senjata utama memenangkan atensi. Dengan kamera cinema profesional dan studio lighting presisi, kami memproduksi foto produk komersial, brand anthem video, dan short-form video (Reels/TikTok) yang memicu konversi.",
+        deliverables: [
+          "Commercial Product Photography",
+          "Company Profile & Brand Anthem Video",
+          "Viral Short-Form Reels & TikTok Production",
+          "Model & Lifestyle Shoot on Location",
+          "Professional Studio Lighting & Color Grading"
+        ],
+        whatsappText: "Halo Helo! Creative, saya mau konsultasi layanan Photo & Videography"
+      }
+    };
+
+    // Mobile Drawer Menu Toggle
+    function toggleMobileMenu() {
+      const drawer = document.getElementById("mobile-menu-drawer");
+      if (drawer) drawer.classList.toggle("hidden");
+    }
+
+    // Mobile Service Selector
+    let activeMobileService = "branding";
+    function setMobileServiceTab(key) {
+      activeMobileService = key;
+      const keys = ["branding", "digital", "photo"];
+      keys.forEach(k => {
+        const btn = document.getElementById("mob-tab-" + k);
+        if (!btn) return;
+        if (k === key) {
+          btn.className = "py-1.5 px-2 rounded-xl text-[11px] font-bold transition-all bg-brand-blue text-white shadow-md";
+        } else {
+          btn.className = "py-1.5 px-2 rounded-xl text-[11px] font-bold transition-all text-slate-300 hover:text-white";
+        }
+      });
+      renderMobileServiceCard();
+    }
+
+    function renderMobileServiceCard() {
+      const data = serviceData[activeMobileService];
+      const card = document.getElementById("mobile-service-card");
+      if (!card || !data) return;
+      card.innerHTML = `
+        <div class="flex items-center gap-3">
+          <div class="w-14 h-14 rounded-xl overflow-hidden bg-black/40 border border-white/10 shrink-0">
+            <img src="${data.image}" alt="${data.title}" class="w-full h-full object-cover">
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="text-[9px] uppercase font-bold tracking-wider" style="color: ${data.color};">
+              ${data.category}
+            </span>
+            <h4 class="text-sm font-bold text-white truncate">${data.title}</h4>
+            <p class="text-[11px] text-slate-300 line-clamp-1 mt-0.5">${data.subtitle}</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between gap-2">
+          <button onclick="openServiceModal('${activeMobileService}')" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-semibold flex items-center gap-1">
+            <span>Detail Scope</span> &rarr;
+          </button>
+          <a href="https://api.whatsapp.com/send/?phone=6287877521839&text=${encodeURIComponent(data.whatsappText)}" 
+             target="_blank"
+             rel="noopener noreferrer"
+             class="px-3.5 py-1.5 rounded-xl text-[11px] font-bold text-white shadow-md flex items-center gap-1.5"
+             style="background: ${data.color};">
+            <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+            <span>Konsultasi</span>
+          </a>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    // Initialize Mobile Service Card immediately
+    renderMobileServiceCard();
+
+    // Open Service Modal
+    function openServiceModal(serviceKey) {
+      const data = serviceData[serviceKey];
+      if (!data) return;
+
+      const modal = document.getElementById('service-modal');
+      const card = document.getElementById('modal-content-card');
+      const body = document.getElementById('modal-body');
+
+      body.innerHTML = `
+        <div class="flex items-center gap-2 mb-3">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider" 
+                style="background: ${data.color}20; color: ${data.color}; border: 1px solid ${data.color}50;">
+            <i data-lucide="${data.icon}" class="w-3.5 h-3.5"></i>
+            ${data.category}
+          </span>
+        </div>
+        
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-white font-display mb-1">
+          ${data.title}
+        </h3>
+        <p class="text-sm font-medium text-slate-400 mb-5">${data.subtitle}</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center mb-6">
+          <div class="md:col-span-5 rounded-2xl overflow-hidden border border-white/10 bg-black/40 h-44 flex items-center justify-center">
+            <img src="${data.image}" alt="${data.title}" class="w-full h-full object-cover">
+          </div>
+          <div class="md:col-span-7">
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+              ${data.desc}
+            </p>
+            <div class="space-y-1.5">
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Scope of Work:</span>
+              ${data.deliverables.map(item => `
+                <div class="flex items-center gap-2 text-xs text-slate-200">
+                  <i data-lucide="check" class="w-3.5 h-3.5 shrink-0" style="color: ${data.color};"></i>
+                  <span>${item}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-5 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+          <span class="text-xs text-slate-400">Siap bawa brand Anda naik kelas?</span>
+          <a href="https://api.whatsapp.com/send/?phone=6287877521839&text=${encodeURIComponent(data.whatsappText)}"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-white text-xs sm:text-sm font-bold shadow-lg transition-transform hover:scale-105"
+             style="background: ${data.color};">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            <span>Konsultasikan ${data.title}</span>
+          </a>
+        </div>
+      `;
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+      lucide.createIcons();
+    }
+
+    // Close Service Modal
+    function closeServiceModal() {
+      const modal = document.getElementById('service-modal');
+      const card = document.getElementById('modal-content-card');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+    }
+
+    // Close modal on escape
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeServiceModal();
+    });
+
+    // Close on outside click
+    document.getElementById('service-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'service-modal') closeServiceModal();
+    });
+
+    // ================= GSAP SCROLLTRIGGER SETUP =================
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Optimize for mobile address bar resize & performance
+    ScrollTrigger.config({ ignoreMobileResize: true });
+
+    const layer1 = document.getElementById('scene-layer-1');
+    const layer2 = document.getElementById('scene-layer-2');
+    const layer3 = document.getElementById('scene-layer-3');
+
+    const text1 = document.getElementById('stage-text-1');
+    const text2 = document.getElementById('stage-text-2');
+    const text3 = document.getElementById('stage-text-3');
+
+    const btn1 = document.getElementById('btn-scene-1');
+    const btn2 = document.getElementById('btn-scene-2');
+    const btn3 = document.getElementById('btn-scene-3');
+    const progressLine = document.getElementById('scroll-progress-line');
+
+    // Create Main Timeline for Scrollytelling
+    const scrollyTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#scrolly-section",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.8,
+        onUpdate: (self) => {
+          const p = self.progress;
+          if (progressLine) progressLine.style.width = `${p * 100}%`;
+
+          // Update Controller Dock Active Buttons
+          if (btn1 && btn2 && btn3) {
+            if (p < 0.35) {
+              btn1.className = "px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all bg-brand-blue text-white shadow-md shrink-0";
+              btn2.className = "px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all text-slate-300 hover:text-white shrink-0";
+              btn3.className = "px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all text-slate-300 hover:text-white shrink-0";
+            } else if (p >= 0.35 && p < 0.7) {
+              btn1.className = "px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all text-slate-300 hover:text-white shrink-0";
+              btn2.className = "px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all bg-brand-coral text-white shadow-md shrink-0";
+              btn3.className = "px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all text-slate-300 hover:text-white shrink-0";
+            } else {
+              btn1.className = "px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all text-slate-300 hover:text-white shrink-0";
+              btn2.className = "px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all text-slate-300 hover:text-white shrink-0";
+              btn3.className = "px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold transition-all bg-brand-blue text-white shadow-md shrink-0";
+            }
+          }
+        }
+      }
+    });
+
+    // SCROLL ANIMATION PHASES:
+    // 0.0 -> 0.35: Exterior Zoom & Text 1 Fade Out
+    scrollyTL
+      .to(layer1, { scale: 1.15, duration: 1, ease: "none" }, 0)
+      .to(text1, { opacity: 0, y: -40, duration: 0.5, ease: "power1.out" }, 0.3)
+      
+      // 0.35 -> 0.7: Transition Layer 2 in (Indoor Studio), Text 2 In & Out
+      .to(layer2, { opacity: 1, scale: 1.08, duration: 1, ease: "none" }, 0.35)
+      .to(text2, { opacity: 1, y: 0, duration: 0.5, ease: "power1.out" }, 0.45)
+      .to(text2, { opacity: 0, y: -30, duration: 0.5, ease: "power1.in" }, 1.1)
+      
+      // 0.7 -> 1.0: Transition Layer 3 in (Desk Workstation), Text 3 In
+      .to(layer3, { opacity: 1, scale: 1.02, duration: 1, ease: "none" }, 1.05)
+      .to(text3, { opacity: 1, pointerEvents: 'auto', duration: 0.8, ease: "power1.out" }, 1.25);
+
+    // Jump to Progress function for Dock Buttons
+    function jumpToProgress(targetP) {
+      const section = document.getElementById('scrolly-section');
+      if (!section) return;
+      const startY = section.offsetTop;
+      const totalH = section.offsetHeight - window.innerHeight;
+      window.scrollTo({
+        top: startY + (totalH * targetP),
+        behavior: 'smooth'
+      });
+    }
+
+    // Portfolio Stagger Reveal with IntersectionObserver
+    const portfolioCards = document.querySelectorAll('.portfolio-item-card');
+    if ('IntersectionObserver' in window && portfolioCards.length > 0) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const card = entry.target;
+            const delayStr = card.style.getPropertyValue('--delay') || '0ms';
+            const delay = parseInt(delayStr, 10) || 0;
+            setTimeout(() => {
+              card.classList.add('is-revealed');
+            }, delay);
+            observer.unobserve(card);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      portfolioCards.forEach(card => observer.observe(card));
+    } else {
+      portfolioCards.forEach(card => card.classList.add('is-revealed'));
+    }
+
+    // About Us Reveal with Isolated IntersectionObserver (Does not conflict with GSAP)
+    const aboutAnimElements = document.querySelectorAll('.about-fade-up');
+    if ('IntersectionObserver' in window && aboutAnimElements.length > 0) {
+      const aboutObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-in-view');
+            aboutObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -30px 0px'
+      });
+      aboutAnimElements.forEach(el => aboutObserver.observe(el));
+    } else {
+      aboutAnimElements.forEach(el => el.classList.add('is-in-view'));
+    }
+
+    // Refresh ScrollTrigger after assets finish loading
+    window.addEventListener('load', () => {
+      ScrollTrigger.refresh();
+    });
+  </script>
+</body>
+</html>
